@@ -1,5 +1,5 @@
 from deal_fetcher import fetch_deals
-from filters import is_good_deal, deal_score
+from filters import is_good_deal, deal_score, verdict
 from affiliate import add_affiliate_tag
 from telegram_sender import send_photo
 from database import already_posted, mark_posted
@@ -7,6 +7,7 @@ import time
 
 
 def run():
+
     deals = sorted(
         fetch_deals(),
         key=lambda x: deal_score(x),
@@ -21,25 +22,36 @@ def run():
         if already_posted(deal["id"]):
             continue
 
-        affiliate_link = add_affiliate_tag(deal["url"])
+        score = deal_score(deal)
 
-        caption = f"""🔥 <b>{deal['title']}</b>
+        affiliate = add_affiliate_tag(
+            deal["url"]
+        )
+
+        caption = f"""🔥 <b>DAILYLOOT VERIFIED DEAL</b>
+
+🛍 <b>{deal['title']}</b>
 
 ⭐ {deal['rating']} ({deal['reviews']} Reviews)
 
 💰 ₹{deal['price']}
+
 📉 {deal['discount']}% OFF
 
-🏆 Deal Score: {deal_score(deal)}/100
+🏆 Deal Score: {score}/100
+
+{verdict(score)}
 """
 
         send_photo(
             deal["image"],
             caption,
-            affiliate_link
+            affiliate
         )
 
-        mark_posted(deal["id"])
+        mark_posted(
+            deal["id"]
+        )
 
         time.sleep(5)
 
