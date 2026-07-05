@@ -1,17 +1,3 @@
-import os
-import requests
+from main import run
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-
-url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-
-response = requests.post(
-    url,
-    data={
-        "chat_id": CHAT_ID,
-        "text": "✅ DailyLoot Bot is online and working!"
-    }
-)
-
-print(response.text)
+run()
