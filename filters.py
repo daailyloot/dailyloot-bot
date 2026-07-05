@@ -8,10 +8,10 @@ def is_good_deal(product):
     )
 
 def deal_score(product):
-    score = 0
+    discount_score = min((product["discount"] / 70) * 50, 50)
+    rating_score = (product["rating"] / 5) * 30
+    review_score = min((product["reviews"] / 1000) * 20, 20)
 
-    score += min(product["discount"], 70)
-    score += min(product["rating"] * 5, 25)
-    score += min(product["reviews"] / 100, 25)
+    total = discount_score + rating_score + review_score
 
-    return round(score, 2)
+    return round(min(total, 100), 1)
