@@ -12,6 +12,16 @@ def deal_score(product):
     rating_score = (product["rating"] / 5) * 30
     review_score = min((product["reviews"] / 1000) * 20, 20)
 
-    total = discount_score + rating_score + review_score
+    return round(discount_score + rating_score + review_score, 1)
 
-    return round(min(total, 100), 1)
+def verdict(score):
+    if score >= 95:
+        return "🔥 Must Buy"
+
+    if score >= 85:
+        return "✅ Great Deal"
+
+    if score >= 70:
+        return "👍 Good Deal"
+
+    return "❌ Skip"
