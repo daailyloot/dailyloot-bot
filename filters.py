@@ -6,3 +6,12 @@ def is_good_deal(product):
         and product["rating"] >= MIN_RATING
         and product["reviews"] >= MIN_REVIEWS
     )
+
+def deal_score(product):
+    score = 0
+
+    score += min(product["discount"], 70)
+    score += min(product["rating"] * 5, 25)
+    score += min(product["reviews"] / 100, 25)
+
+    return round(score, 2)
