@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  post:
+  run:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,9 +14,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: python bot.py
+      - name: Run bot
+        run: python bot.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
